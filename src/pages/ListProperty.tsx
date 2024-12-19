@@ -33,6 +33,33 @@ const ListProperty = () => {
       bathrooms: 1,
       image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
     },
+    {
+      id: 4,
+      name: "Mountain View Cabin",
+      location: "321 Pine Trail, Lake Tahoe",
+      price: 280,
+      bedrooms: 2,
+      bathrooms: 1,
+      image: "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    },
+    {
+      id: 5,
+      name: "Seaside Villa",
+      location: "567 Coastal Way, Malibu",
+      price: 450,
+      bedrooms: 4,
+      bathrooms: 3,
+      image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    },
+    {
+      id: 6,
+      name: "Urban Penthouse",
+      location: "890 Sky Drive, San Diego",
+      price: 380,
+      bedrooms: 3,
+      bathrooms: 2,
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    }
   ];
 
   return (
