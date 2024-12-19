@@ -2,10 +2,11 @@ import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedProperties } from "@/components/FeaturedProperties";
 import { Features } from "@/components/Features";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -23,6 +24,7 @@ const Index = () => {
 
       <FeaturedProperties />
       <Features />
+      <Footer />
     </div>
   );
 };
