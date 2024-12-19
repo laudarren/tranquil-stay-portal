@@ -1,117 +1,92 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Building2, Upload } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BedDouble, MapPin, Bath, DollarSign } from "lucide-react";
 
 const ListProperty = () => {
-  const { toast } = useToast();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Property Submitted",
-      description: "We'll review your property and get back to you soon.",
-    });
-  };
+  // This would typically come from an API or database
+  const properties = [
+    {
+      id: 1,
+      name: "Luxury Downtown Apartment",
+      location: "123 Main St, San Francisco",
+      price: 250,
+      bedrooms: 2,
+      bathrooms: 2,
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    },
+    {
+      id: 2,
+      name: "Cozy Beach House",
+      location: "456 Ocean Ave, Santa Monica",
+      price: 350,
+      bedrooms: 3,
+      bathrooms: 2,
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    },
+    {
+      id: 3,
+      name: "Modern City Loft",
+      location: "789 Park Rd, Los Angeles",
+      price: 200,
+      bedrooms: 1,
+      bathrooms: 1,
+      image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+    },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8 mt-20">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <Building2 className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">List Your Property</h1>
-          </div>
-          
-          <p className="text-muted-foreground mb-8">
-            Fill out the form below to list your property on StayFinder. We'll review your submission
-            and get back to you within 24 hours.
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Available Properties</h1>
+          <p className="text-muted-foreground">
+            Discover our selection of premium accommodations
           </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="propertyName">Property Name</Label>
-                <Input id="propertyName" placeholder="Enter property name" required />
-              </div>
-
-              <div>
-                <Label htmlFor="propertyType">Property Type</Label>
-                <Select required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select property type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="apartment">Apartment</SelectItem>
-                    <SelectItem value="house">House</SelectItem>
-                    <SelectItem value="villa">Villa</SelectItem>
-                    <SelectItem value="condo">Condo</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input id="address" placeholder="Enter property address" required />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="bedrooms">Bedrooms</Label>
-                  <Input id="bedrooms" type="number" min="1" required />
-                </div>
-                <div>
-                  <Label htmlFor="bathrooms">Bathrooms</Label>
-                  <Input id="bathrooms" type="number" min="1" step="0.5" required />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="price">Price per Night ($)</Label>
-                <Input id="price" type="number" min="1" required />
-              </div>
-
-              <div>
-                <Label htmlFor="description">Property Description</Label>
-                <Textarea 
-                  id="description" 
-                  placeholder="Describe your property..."
-                  className="min-h-[150px]"
-                  required
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {properties.map((property) => (
+            <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="aspect-video relative overflow-hidden">
+                <img
+                  src={property.image}
+                  alt={property.name}
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                 />
               </div>
-
-              <div>
-                <Label>Property Photos</Label>
-                <div className="mt-2">
-                  <Button type="button" variant="outline" className="w-full">
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload Photos
-                  </Button>
+              
+              <CardHeader>
+                <CardTitle className="line-clamp-1">{property.name}</CardTitle>
+                <div className="flex items-center text-muted-foreground">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  <span className="text-sm line-clamp-1">{property.location}</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  You can upload up to 10 photos. Maximum size: 5MB each.
-                </p>
-              </div>
-            </div>
+              </CardHeader>
 
-            <Button type="submit" className="w-full">
-              Submit Property
-            </Button>
-          </form>
+              <CardContent>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center">
+                      <BedDouble className="h-4 w-4 mr-1" />
+                      <span>{property.bedrooms}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Bath className="h-4 w-4 mr-1" />
+                      <span>{property.bathrooms}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center font-semibold">
+                    <DollarSign className="h-4 w-4" />
+                    <span>{property.price}</span>
+                    <span className="text-muted-foreground ml-1">/night</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </main>
 
