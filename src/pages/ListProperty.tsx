@@ -2,8 +2,11 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BedDouble, MapPin, Bath, DollarSign } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ListProperty = () => {
+  const navigate = useNavigate();
+  
   // This would typically come from an API or database
   const properties = [
     {
@@ -76,7 +79,11 @@ const ListProperty = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
-            <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <Card 
+              key={property.id} 
+              className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => navigate(`/property/${property.id}`)}
+            >
               <div className="aspect-video relative overflow-hidden">
                 <img
                   src={property.image}

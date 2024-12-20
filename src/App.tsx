@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import ListProperty from "./pages/ListProperty";
 import Support from "./pages/Support";
+import PropertyDetails from "./pages/PropertyDetails";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/list-property" element={<ListProperty />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/property/:id" element={<PropertyDetails />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
