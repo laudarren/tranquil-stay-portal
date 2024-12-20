@@ -10,10 +10,17 @@ export const Header = () => {
           StayFinder
         </Link>
         <nav className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-gray-600 hover:text-primary transition-colors">Find Places</Link>
-          <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">List Property</Link>
-          <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">Support</Link>
+          <Link to="/" className="text-gray-600 hover:text-primary transition-colors">
+            Find Places
+          </Link>
+          <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">
+            List Property
+          </Link>
+          <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
+            Support
+          </Link>
           <Button variant="default">Sign In</Button>
+          <Button variant="default">Sign Up</Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-6 w-6" />
