@@ -12,7 +12,7 @@ export const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-gray-600 hover:text-primary transition-colors">Find Places</Link>
           <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">List Property</Link>
-          <a href="#" className="text-gray-600 hover:text-primary transition-colors">About</a>
+          <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">Support</Link>
           <Button variant="default">Sign In</Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden">
