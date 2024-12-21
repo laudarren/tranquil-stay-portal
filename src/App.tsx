@@ -8,6 +8,7 @@ import ListProperty from "./pages/ListProperty";
 import Support from "./pages/Support";
 import PropertyDetails from "./pages/PropertyDetails";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/support" element={<Support />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

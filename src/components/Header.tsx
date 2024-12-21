@@ -20,9 +20,11 @@ export const Header = () => {
             Support
           </Link>
           <Link to="/signin">
-            <Button variant="default">Sign In</Button>
+            <Button variant="outline">Sign In</Button>
           </Link>
-          <Button variant="default">Sign Up</Button>
+          <Link to="/signup">
+            <Button variant="default">Sign Up</Button>
+          </Link>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-6 w-6" />
