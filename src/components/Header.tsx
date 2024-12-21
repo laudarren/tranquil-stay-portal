@@ -16,6 +16,9 @@ export const Header = () => {
           <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">
             List Property
           </Link>
+          <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
+            Events
+          </Link>
           <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
             Support
           </Link>

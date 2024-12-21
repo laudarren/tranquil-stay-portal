@@ -9,6 +9,7 @@ import Support from "./pages/Support";
 import PropertyDetails from "./pages/PropertyDetails";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Events from "./pages/Events";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/events" element={<Events />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
