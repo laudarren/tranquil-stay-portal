@@ -19,7 +19,9 @@ export const Header = () => {
           <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
             Support
           </Link>
-          <Button variant="default">Sign In</Button>
+          <Link to="/signin">
+            <Button variant="default">Sign In</Button>
+          </Link>
           <Button variant="default">Sign Up</Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden">
