@@ -24,6 +24,9 @@ const formSchema = z.object({
     message: "Password must be at least 6 characters.",
   }),
   confirmPassword: z.string(),
+  verificationCode: z.string().length(6, {
+    message: "Verification code must be 6 characters.",
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -40,6 +43,7 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      verificationCode: "",
     },
   });
 
@@ -70,7 +74,7 @@ const SignUp = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Enter your email and password to create your account
+            Enter your details to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -122,6 +126,25 @@ const SignUp = () => {
                       <Input
                         type="password"
                         placeholder="Confirm your password"
+                        {...field}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="verificationCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Verification Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Enter 6-digit code"
+                        maxLength={6}
                         {...field}
                         disabled={isLoading}
                       />
