@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BedDouble, MapPin, Bath, DollarSign } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { SearchBar } from "@/components/SearchBar";
 
 const ListProperty = () => {
   const navigate = useNavigate();
@@ -75,6 +76,10 @@ const ListProperty = () => {
           <p className="text-muted-foreground">
             Discover our selection of premium accommodations
           </p>
+        </div>
+
+        <div className="mb-8">
+          <SearchBar />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
