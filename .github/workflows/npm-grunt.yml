@@ -1,32 +1,30 @@
-name: NodeJS with Grunt
+name: Deploy Vite Project
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # 或者 你的项目支持的 Node.js 版本
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install Grunt Locally
-      run: npm install grunt --save-dev
+      - name: Build the project
+        run: npm run build
 
-    - name: Run Grunt
-      run: grunt
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Vite 默认构建输出到 dist 目录
