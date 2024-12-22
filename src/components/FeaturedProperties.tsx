@@ -24,8 +24,7 @@ const properties = [
     location: "Kuching, Sarawak",
     price: "$399",
     rating: 4.7,
-    image: "https://tse3.mm.bing.net/th?id=OIP.c8ljcbpgzIg6twJtRsZ66QHaE8&pid=Api
-",
+    image: "https://tse3.mm.bing.net/th?id=OIP.c8ljcbpgzIg6twJtRsZ66QHaE8&pid=Api",
   },
 ];
 
