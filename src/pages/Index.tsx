@@ -5,7 +5,7 @@ import { Features } from "@/components/Features";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Calendar } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -39,6 +39,36 @@ const Index = () => {
     }
   ];
 
+  const travelDestinations = [
+    {
+      id: 1,
+      name: "Swiss Alps Adventure",
+      location: "Switzerland",
+      description: "Experience breathtaking mountain views and pristine alpine landscapes.",
+      image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+      activities: ["Hiking", "Skiing", "Photography"],
+      bestTime: "June to September"
+    },
+    {
+      id: 2,
+      name: "Coastal Paradise",
+      location: "Mediterranean Coast",
+      description: "Discover charming coastal towns and crystal-clear waters.",
+      image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
+      activities: ["Beach", "Sailing", "Snorkeling"],
+      bestTime: "May to October"
+    },
+    {
+      id: 3,
+      name: "Forest Retreat",
+      location: "Pacific Northwest",
+      description: "Immerse yourself in ancient forests and stunning waterfalls.",
+      image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+      activities: ["Hiking", "Wildlife Watching", "Photography"],
+      bestTime: "July to September"
+    }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -58,6 +88,79 @@ const Index = () => {
 
       <FeaturedProperties />
       <Features />
+
+      {/* Travel Destinations Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-primary">Popular Destinations</h2>
+            <Link to="/travel-guide" className="text-secondary hover:text-secondary/80">
+              View all destinations →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {travelDestinations.map((destination) => (
+              <Dialog key={destination.id}>
+                <DialogTrigger asChild>
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className="relative h-48 overflow-hidden rounded-t-lg">
+                      <img
+                        src={`${destination.image}?auto=format&fit=crop&w=800&q=80`}
+                        alt={destination.name}
+                        className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder.svg";
+                        }}
+                      />
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <MapPin className="h-5 w-5 text-primary" />
+                        {destination.name}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm font-semibold mb-2">{destination.location}</p>
+                      <p className="text-muted-foreground">{destination.description}</p>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>{destination.name}</DialogTitle>
+                  </DialogHeader>
+                  <div className="mt-4">
+                    <img
+                      src={`${destination.image}?auto=format&fit=crop&w=800&q=80`}
+                      alt={destination.name}
+                      className="w-full h-64 object-cover rounded-lg mb-4"
+                    />
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="font-semibold mb-2">Location</h3>
+                        <p className="text-muted-foreground">{destination.location}</p>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-2">Activities</h3>
+                        <ul className="list-disc list-inside text-muted-foreground">
+                          {destination.activities.map((activity, index) => (
+                            <li key={index}>{activity}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-2">Best Time to Visit</h3>
+                        <p className="text-muted-foreground">{destination.bestTime}</p>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Upcoming Events Section */}
       <section className="py-16 px-4 bg-gray-50">
