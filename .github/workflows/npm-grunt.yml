@@ -10,21 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      # 设置 Node.js
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18 # 或者 你的项目支持的 Node.js 版本
+          node-version: 18
 
+      # 安装依赖
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
+      # 构建项目
+      - name: Build project
         run: npm run build
 
+      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist # Vite 默认构建输出到 dist 目录
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
