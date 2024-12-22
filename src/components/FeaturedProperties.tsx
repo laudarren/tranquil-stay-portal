@@ -12,19 +12,20 @@ const properties = [
   },
   {
     id: 2,
-    title: "Seaside Villa",
-    location: "Miami Beach",
+    title: "Damai Beach",
+    location: "Kuching, Sarawak",
     price: "$459",
     rating: 4.9,
     image: "https://tse4.mm.bing.net/th?id=OIP.xYCoQTPFUWpNW0I3RtqIwgHaFc&pid=Api",
   },
   {
     id: 3,
-    title: "Mountain Retreat",
-    location: "Aspen",
+    title: "Mount Santubong",
+    location: "Kuching, Sarawak",
     price: "$399",
     rating: 4.7,
-    image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+    image: "https://tse3.mm.bing.net/th?id=OIP.c8ljcbpgzIg6twJtRsZ66QHaE8&pid=Api
+",
   },
 ];
 
