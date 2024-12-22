@@ -28,7 +28,31 @@ const Events = () => {
       date: "2024-03-25",
       location: "Central Park",
       description: "Live performances by local bands",
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04"
+      image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05"
+    },
+    {
+      id: 4,
+      title: "Tech Meetup",
+      date: "2024-04-01",
+      location: "Innovation Hub",
+      description: "Network with local tech professionals and startups",
+      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87"
+    },
+    {
+      id: 5,
+      title: "Farmers Market",
+      date: "2024-04-05",
+      location: "City Plaza",
+      description: "Fresh local produce and artisanal goods",
+      image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9"
+    },
+    {
+      id: 6,
+      title: "Wine Tasting Evening",
+      date: "2024-04-10",
+      location: "Vintage Cellars",
+      description: "Sample premium local and international wines",
+      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3"
     }
   ];
 
