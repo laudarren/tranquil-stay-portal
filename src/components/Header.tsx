@@ -7,7 +7,7 @@ export const Header = () => {
     <header className="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold text-primary">
-          StayFinder
+          CAMS
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-gray-600 hover:text-primary transition-colors">
