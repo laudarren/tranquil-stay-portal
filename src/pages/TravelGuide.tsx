@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, Map, Compass, Suitcase } from "lucide-react";
+import { Globe, Map, Compass, Luggage } from "lucide-react";
 
 const TravelGuide = () => {
   const destinations = [
@@ -52,7 +52,7 @@ const TravelGuide = () => {
     },
     {
       title: "Packing Essentials",
-      icon: <Suitcase className="h-6 w-6" />,
+      icon: <Luggage className="h-6 w-6" />,
       items: [
         "Weather-appropriate clothing",
         "Important documents and copies",
