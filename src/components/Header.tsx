@@ -19,6 +19,9 @@ export const Header = () => {
           <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
             Events
           </Link>
+          <Link to="/travel-guide" className="text-gray-600 hover:text-primary transition-colors">
+            Guide
+          </Link>
           <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
             Support
           </Link>
