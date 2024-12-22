@@ -8,7 +8,7 @@ const properties = [
     location: "New York City",
     price: "$299",
     rating: 4.8,
-    image: "https://www.gettyimages.com/detail/photo/kuching-waterfront-royalty-free-image/1180892035",
+    image: "https://tse2.mm.bing.net/th?id=OIP.IOABGm5t9Zmzflox1uGHiAHaEK&pid=Api",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const properties = [
     location: "Miami Beach",
     price: "$459",
     rating: 4.9,
-    image: "https://www.gettyimages.com/detail/photo/sarawak-state-legislative-assembly-building-royalty-free-image/1180892033",
+    image: "https://tse4.mm.bing.net/th?id=OIP.xYCoQTPFUWpNW0I3RtqIwgHaFc&pid=Api",
   },
   {
     id: 3,
