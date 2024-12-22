@@ -80,7 +80,7 @@ const Index = () => {
             Find Your Perfect Stay
           </h1>
           <p className="text-xl text-gray-600 mb-12 animate-fade-in">
-            Discover and book unique accommodations around the world
+            Discover and book unique accommodations in Sarawak
           </p>
           <SearchBar />
         </div>
