@@ -1,12 +1,54 @@
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from "react";
 
 export const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
   // This would typically come from a global state or context
   // For now we'll hardcode it to match our mock data
   const paymentPendingCount = 1;
+
+  const NavLinks = () => (
+    <>
+      <Link to="/" className="text-gray-600 hover:text-primary transition-colors">
+        Find Places
+      </Link>
+      <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">
+        List Property
+      </Link>
+      <div className="relative">
+        <Link to="/reservations" className="text-gray-600 hover:text-primary transition-colors">
+          Reservation
+          {paymentPendingCount > 0 && (
+            <Badge 
+              variant="secondary" 
+              className="absolute -top-3 -right-6 bg-red-500 text-white"
+            >
+              {paymentPendingCount}
+            </Badge>
+          )}
+        </Link>
+      </div>
+      <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
+        Events
+      </Link>
+      <Link to="/travel-guide" className="text-gray-600 hover:text-primary transition-colors">
+        Guide
+      </Link>
+      <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
+        Support
+      </Link>
+      <Link to="/signin">
+        <Button variant="outline">Sign In</Button>
+      </Link>
+      <Link to="/signup">
+        <Button variant="default">Sign Up</Button>
+      </Link>
+    </>
+  );
 
   return (
     <header className="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
@@ -14,45 +56,25 @@ export const Header = () => {
         <Link to="/" className="text-2xl font-bold text-primary">
           CAMS
         </Link>
+        
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-gray-600 hover:text-primary transition-colors">
-            Find Places
-          </Link>
-          <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">
-            List Property
-          </Link>
-          <div className="relative">
-            <Link to="/reservations" className="text-gray-600 hover:text-primary transition-colors">
-              Reservation
-              {paymentPendingCount > 0 && (
-                <Badge 
-                  variant="secondary" 
-                  className="absolute -top-3 -right-6 bg-red-500 text-white"
-                >
-                  {paymentPendingCount}
-                </Badge>
-              )}
-            </Link>
-          </div>
-          <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
-            Events
-          </Link>
-          <Link to="/travel-guide" className="text-gray-600 hover:text-primary transition-colors">
-            Guide
-          </Link>
-          <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
-            Support
-          </Link>
-          <Link to="/signin">
-            <Button variant="outline">Sign In</Button>
-          </Link>
-          <Link to="/signup">
-            <Button variant="default">Sign Up</Button>
-          </Link>
+          <NavLinks />
         </nav>
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-6 w-6" />
-        </Button>
+
+        {/* Mobile Navigation */}
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <nav className="flex flex-col gap-4 mt-8">
+              <NavLinks />
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
