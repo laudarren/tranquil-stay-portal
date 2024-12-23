@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 export const Header = () => {
+  // This would typically come from a global state or context
+  // For now we'll hardcode it to match our mock data
+  const paymentPendingCount = 1;
+
   return (
     <header className="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -16,9 +21,19 @@ export const Header = () => {
           <Link to="/list-property" className="text-gray-600 hover:text-primary transition-colors">
             List Property
           </Link>
-          <Link to="/reservations" className="text-gray-600 hover:text-primary transition-colors">
-            Reservation
-          </Link>
+          <div className="relative">
+            <Link to="/reservations" className="text-gray-600 hover:text-primary transition-colors">
+              Reservation
+              {paymentPendingCount > 0 && (
+                <Badge 
+                  variant="secondary" 
+                  className="absolute -top-3 -right-6 bg-red-500 text-white"
+                >
+                  {paymentPendingCount}
+                </Badge>
+              )}
+            </Link>
+          </div>
           <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
             Events
           </Link>

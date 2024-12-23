@@ -42,28 +42,16 @@ const Reservations = () => {
     }
   ];
 
-  const paymentPendingCount = reservations.filter(r => r.status === 'waiting_payment').length;
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8 mt-20">
-        <div className="mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">My Reservations</h1>
-            <p className="text-muted-foreground">
-              Track and manage your upcoming stays. Your bookings are currently pending approval from property owners.
-            </p>
-          </div>
-          {paymentPendingCount > 0 && (
-            <Badge 
-              variant="secondary" 
-              className="bg-yellow-500 text-white"
-            >
-              {paymentPendingCount} Payment{paymentPendingCount > 1 ? 's' : ''} Pending
-            </Badge>
-          )}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">My Reservations</h1>
+          <p className="text-muted-foreground">
+            Track and manage your upcoming stays. Your bookings are currently pending approval from property owners.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
