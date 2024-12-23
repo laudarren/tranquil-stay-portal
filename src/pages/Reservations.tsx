@@ -29,19 +29,41 @@ const Reservations = () => {
       status: "pending",
       price: 350,
       image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
+    },
+    {
+      id: 3,
+      propertyName: "Mountain View Villa",
+      location: "789 Peak Road, Aspen",
+      checkIn: "2024-05-01",
+      checkOut: "2024-05-07",
+      status: "waiting_payment",
+      price: 500,
+      image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233"
     }
   ];
+
+  const paymentPendingCount = reservations.filter(r => r.status === 'waiting_payment').length;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8 mt-20">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">My Reservations</h1>
-          <p className="text-muted-foreground">
-            Track and manage your upcoming stays. Your bookings are currently pending approval from property owners.
-          </p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">My Reservations</h1>
+            <p className="text-muted-foreground">
+              Track and manage your upcoming stays. Your bookings are currently pending approval from property owners.
+            </p>
+          </div>
+          {paymentPendingCount > 0 && (
+            <Badge 
+              variant="secondary" 
+              className="bg-yellow-500 text-white"
+            >
+              {paymentPendingCount} Payment{paymentPendingCount > 1 ? 's' : ''} Pending
+            </Badge>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -62,10 +84,14 @@ const Reservations = () => {
                   }}
                 />
                 <Badge 
-                  className="absolute top-4 right-4 bg-yellow-500"
+                  className={`absolute top-4 right-4 ${
+                    reservation.status === 'waiting_payment' 
+                      ? 'bg-orange-500' 
+                      : 'bg-yellow-500'
+                  }`}
                   variant="secondary"
                 >
-                  {reservation.status}
+                  {reservation.status === 'waiting_payment' ? 'Payment Required' : 'Pending'}
                 </Badge>
               </div>
               
@@ -105,9 +131,13 @@ const Reservations = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className="capitalize">
-                      {reservation.status}
+                      {reservation.status === 'waiting_payment' ? 'Payment Required' : 'Pending'}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">(Awaiting approval)</span>
+                    <span className="text-xs text-muted-foreground">
+                      {reservation.status === 'waiting_payment' 
+                        ? '(Approved - Awaiting Payment)' 
+                        : '(Awaiting approval)'}
+                    </span>
                   </div>
                 </div>
 
