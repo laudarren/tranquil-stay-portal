@@ -11,6 +11,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Events from "./pages/Events";
 import TravelGuide from "./pages/TravelGuide";
+import Reservations from "./pages/Reservations";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
           <Route path="/travel-guide" element={<TravelGuide />} />
+          <Route path="/reservations" element={<Reservations />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
