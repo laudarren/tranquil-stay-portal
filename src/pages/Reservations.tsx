@@ -2,7 +2,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, MapPin, Calendar, BedDouble } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, MapPin, Calendar, BedDouble, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Reservations = () => {
@@ -18,6 +19,7 @@ const Reservations = () => {
       checkOut: "2024-03-25",
       status: "pending",
       price: 250,
+      totalNights: 5,
       image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
     },
     {
@@ -28,6 +30,7 @@ const Reservations = () => {
       checkOut: "2024-04-20",
       status: "pending",
       price: 350,
+      totalNights: 5,
       image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
     },
     {
@@ -38,6 +41,7 @@ const Reservations = () => {
       checkOut: "2024-05-07",
       status: "waiting_payment",
       price: 500,
+      totalNights: 6,
       image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233"
     }
   ];
@@ -58,8 +62,7 @@ const Reservations = () => {
           {reservations.map((reservation) => (
             <Card 
               key={reservation.id} 
-              className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => navigate(`/property/${reservation.id}`)}
+              className="overflow-hidden hover:shadow-lg transition-shadow"
             >
               <div className="aspect-video relative overflow-hidden">
                 <img
@@ -121,11 +124,6 @@ const Reservations = () => {
                     <Badge variant="outline" className="capitalize">
                       {reservation.status === 'waiting_payment' ? 'Payment Required' : 'Pending'}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {reservation.status === 'waiting_payment' 
-                        ? '(Approved - Awaiting Payment)' 
-                        : '(Awaiting approval)'}
-                    </span>
                   </div>
                 </div>
 
@@ -136,6 +134,29 @@ const Reservations = () => {
                   </div>
                   <span className="font-medium">${reservation.price}</span>
                 </div>
+
+                {reservation.status === 'waiting_payment' && (
+                  <div className="space-y-3 pt-3 border-t">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span>Price per night</span>
+                        <span>${reservation.price}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Number of nights</span>
+                        <span>{reservation.totalNights}</span>
+                      </div>
+                      <div className="flex justify-between font-semibold">
+                        <span>Total Amount</span>
+                        <span>${reservation.price * reservation.totalNights}</span>
+                      </div>
+                    </div>
+                    <Button className="w-full" onClick={() => navigate(`/property/${reservation.id}`)}>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      Proceed to Payment
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
