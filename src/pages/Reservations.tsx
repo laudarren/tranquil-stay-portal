@@ -3,13 +3,15 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, MapPin, Calendar, BedDouble, CreditCard } from "lucide-react";
+import { Clock, MapPin, Calendar, BedDouble, CreditCard, CheckSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Reservations = () => {
   const navigate = useNavigate();
+  const [selectedReservations, setSelectedReservations] = useState<number[]>([]);
 
-  // This would typically come from an API or database
   const reservations = [
     {
       id: 1,
@@ -46,6 +48,21 @@ const Reservations = () => {
     }
   ];
 
+  const pendingPaymentReservations = reservations.filter(r => r.status === 'waiting_payment');
+  
+  const totalAmount = selectedReservations.reduce((total, id) => {
+    const reservation = reservations.find(r => r.id === id);
+    return total + (reservation ? reservation.price * reservation.totalNights : 0);
+  }, 0);
+
+  const handleCheckboxChange = (reservationId: number) => {
+    setSelectedReservations(prev => 
+      prev.includes(reservationId) 
+        ? prev.filter(id => id !== reservationId)
+        : [...prev, reservationId]
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -58,6 +75,24 @@ const Reservations = () => {
           </p>
         </div>
 
+        {pendingPaymentReservations.length > 1 && (
+          <div className="mb-6 p-4 bg-muted rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold">Selected Reservations: {selectedReservations.length}</h3>
+                <p className="text-sm text-muted-foreground">Total Amount: ${totalAmount}</p>
+              </div>
+              <Button 
+                onClick={() => navigate('/checkout', { state: { reservationIds: selectedReservations } })}
+                disabled={selectedReservations.length === 0}
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                Pay Selected (${totalAmount})
+              </Button>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reservations.map((reservation) => (
             <Card 
@@ -65,6 +100,15 @@ const Reservations = () => {
               className="overflow-hidden hover:shadow-lg transition-shadow"
             >
               <div className="aspect-video relative overflow-hidden">
+                {reservation.status === 'waiting_payment' && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <Checkbox
+                      checked={selectedReservations.includes(reservation.id)}
+                      onCheckedChange={() => handleCheckboxChange(reservation.id)}
+                      className="bg-white"
+                    />
+                  </div>
+                )}
                 <img
                   src={`${reservation.image}?auto=format&fit=crop&w=800&q=80`}
                   alt={reservation.propertyName}
@@ -151,9 +195,13 @@ const Reservations = () => {
                         <span>${reservation.price * reservation.totalNights}</span>
                       </div>
                     </div>
-                    <Button className="w-full" onClick={() => navigate(`/property/${reservation.id}`)}>
+                    <Button 
+                      className="w-full" 
+                      onClick={() => navigate(`/property/${reservation.id}`)}
+                      variant={selectedReservations.includes(reservation.id) ? "secondary" : "default"}
+                    >
                       <CreditCard className="mr-2 h-4 w-4" />
-                      Proceed to Payment
+                      Pay Individually
                     </Button>
                   </div>
                 )}
