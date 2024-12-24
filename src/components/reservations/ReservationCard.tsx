@@ -116,7 +116,7 @@ export const ReservationCard = ({ reservation, isSelected, onSelect }: Reservati
             <Button 
               className="w-full" 
               //onClick={() => navigate(`/property/${reservation.id}`)}
-              onClick={() => navigate('/checkout', { state: { reservationIds: 1 } })}
+              onClick={() => navigate('/checkout', { state: { reservationIds: [1,2] } })}
               variant={isSelected ? "secondary" : "default"}
             >
               <CreditCard className="mr-2 h-4 w-4" />
