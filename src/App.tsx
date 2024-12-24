@@ -12,6 +12,7 @@ import SignUp from "./pages/SignUp";
 import Events from "./pages/Events";
 import TravelGuide from "./pages/TravelGuide";
 import Reservations from "./pages/Reservations";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/events" element={<Events />} />
           <Route path="/travel-guide" element={<TravelGuide />} />
           <Route path="/reservations" element={<Reservations />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
