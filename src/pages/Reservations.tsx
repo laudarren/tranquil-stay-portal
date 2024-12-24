@@ -1,18 +1,14 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Clock, MapPin, Calendar, BedDouble, CreditCard, CheckSquare } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { PaymentSummary } from "@/components/reservations/PaymentSummary";
+import { ReservationCard } from "@/components/reservations/ReservationCard";
+import { Reservation } from "@/types/reservation";
 
 const Reservations = () => {
-  const navigate = useNavigate();
   const [selectedReservations, setSelectedReservations] = useState<number[]>([]);
 
-  const reservations = [
+  const reservations: Reservation[] = [
     {
       id: 1,
       propertyName: "Luxury Downtown Apartment",
@@ -45,6 +41,39 @@ const Reservations = () => {
       price: 500,
       totalNights: 6,
       image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233"
+    },
+    {
+      id: 4,
+      propertyName: "Urban Loft Studio",
+      location: "321 Downtown Ave, New York",
+      checkIn: "2024-06-10",
+      checkOut: "2024-06-15",
+      status: "waiting_payment",
+      price: 300,
+      totalNights: 5,
+      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688"
+    },
+    {
+      id: 5,
+      propertyName: "Seaside Resort Suite",
+      location: "789 Beach Blvd, Miami",
+      checkIn: "2024-07-01",
+      checkOut: "2024-07-08",
+      status: "waiting_payment",
+      price: 450,
+      totalNights: 7,
+      image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9"
+    },
+    {
+      id: 6,
+      propertyName: "Historic Downtown Condo",
+      location: "567 Heritage St, Boston",
+      checkIn: "2024-08-15",
+      checkOut: "2024-08-20",
+      status: "pending",
+      price: 280,
+      totalNights: 5,
+      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
     }
   ];
 
@@ -76,137 +105,21 @@ const Reservations = () => {
         </div>
 
         {pendingPaymentReservations.length > 1 && (
-          <div className="mb-6 p-4 bg-muted rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold">Selected Reservations: {selectedReservations.length}</h3>
-                <p className="text-sm text-muted-foreground">Total Amount: ${totalAmount}</p>
-              </div>
-              <Button 
-                onClick={() => navigate('/checkout', { state: { reservationIds: selectedReservations } })}
-                disabled={selectedReservations.length === 0}
-              >
-                <CreditCard className="mr-2 h-4 w-4" />
-                Pay Selected (${totalAmount})
-              </Button>
-            </div>
-          </div>
+          <PaymentSummary
+            selectedCount={selectedReservations.length}
+            totalAmount={totalAmount}
+            selectedReservations={selectedReservations}
+          />
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reservations.map((reservation) => (
-            <Card 
-              key={reservation.id} 
-              className="overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              <div className="aspect-video relative overflow-hidden">
-                {reservation.status === 'waiting_payment' && (
-                  <div className="absolute top-4 left-4 z-10">
-                    <Checkbox
-                      checked={selectedReservations.includes(reservation.id)}
-                      onCheckedChange={() => handleCheckboxChange(reservation.id)}
-                      className="bg-white"
-                    />
-                  </div>
-                )}
-                <img
-                  src={`${reservation.image}?auto=format&fit=crop&w=800&q=80`}
-                  alt={reservation.propertyName}
-                  className="object-cover w-full h-full"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder.svg";
-                  }}
-                />
-                <Badge 
-                  className={`absolute top-4 right-4 ${
-                    reservation.status === 'waiting_payment' 
-                      ? 'bg-orange-500' 
-                      : 'bg-yellow-500'
-                  }`}
-                  variant="secondary"
-                >
-                  {reservation.status === 'waiting_payment' ? 'Payment Required' : 'Pending'}
-                </Badge>
-              </div>
-              
-              <CardHeader>
-                <CardTitle className="line-clamp-1">{reservation.propertyName}</CardTitle>
-                <div className="flex items-center text-muted-foreground">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span className="text-sm line-clamp-1">{reservation.location}</span>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>Check-in:</span>
-                  </div>
-                  <span className="font-medium">
-                    {new Date(reservation.checkIn).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>Check-out:</span>
-                  </div>
-                  <span className="font-medium">
-                    {new Date(reservation.checkOut).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>Status:</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="capitalize">
-                      {reservation.status === 'waiting_payment' ? 'Payment Required' : 'Pending'}
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <BedDouble className="h-4 w-4" />
-                    <span>Price per night:</span>
-                  </div>
-                  <span className="font-medium">${reservation.price}</span>
-                </div>
-
-                {reservation.status === 'waiting_payment' && (
-                  <div className="space-y-3 pt-3 border-t">
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-sm">
-                        <span>Price per night</span>
-                        <span>${reservation.price}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Number of nights</span>
-                        <span>{reservation.totalNights}</span>
-                      </div>
-                      <div className="flex justify-between font-semibold">
-                        <span>Total Amount</span>
-                        <span>${reservation.price * reservation.totalNights}</span>
-                      </div>
-                    </div>
-                    <Button 
-                      className="w-full" 
-                      onClick={() => navigate(`/property/${reservation.id}`)}
-                      variant={selectedReservations.includes(reservation.id) ? "secondary" : "default"}
-                    >
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      Pay Individually
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <ReservationCard
+              key={reservation.id}
+              reservation={reservation}
+              isSelected={selectedReservations.includes(reservation.id)}
+              onSelect={handleCheckboxChange}
+            />
           ))}
         </div>
       </main>
