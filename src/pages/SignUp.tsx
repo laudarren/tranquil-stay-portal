@@ -24,10 +24,6 @@ const formSchema = z.object({
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
 });
 
 const SignUp = () => {
@@ -40,19 +36,18 @@ const SignUp = () => {
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Check if email already exists
+      // Check if email exists using maybeSingle() instead of single()
       const { data: existingUser } = await supabase
         .from('users')
         .select('email')
         .eq('email', values.email)
-        .single();
+        .maybeSingle();
 
       if (existingUser) {
         toast({
@@ -60,24 +55,26 @@ const SignUp = () => {
           title: "Error",
           description: "This email is already registered.",
         });
+        setIsLoading(false);
         return;
       }
 
       // Insert new user
-      const { error } = await supabase
+      const { error: insertError } = await supabase
         .from('users')
         .insert([
           {
             email: values.email,
-            password: values.password, // Note: In a production environment, you should hash the password
+            password: values.password,
           }
         ]);
 
-      if (error) {
+      if (insertError) {
+        console.error('Insert error:', insertError);
         toast({
           variant: "destructive",
           title: "Error",
-          description: error.message,
+          description: "Failed to create account. Please try again.",
         });
         return;
       }
@@ -88,6 +85,7 @@ const SignUp = () => {
       });
       navigate("/signin");
     } catch (error) {
+      console.error('Error:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -138,24 +136,6 @@ const SignUp = () => {
                       <Input
                         type="password"
                         placeholder="Enter your password"
-                        {...field}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Confirm your password"
                         {...field}
                         disabled={isLoading}
                       />
