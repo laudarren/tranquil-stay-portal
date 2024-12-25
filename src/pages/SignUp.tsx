@@ -20,12 +20,6 @@ import { supabase } from "@/integrations/supabase/client";
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
-  }).refine((email) => {
-    // Basic email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }, {
-    message: "Please enter a valid email address format.",
   }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
@@ -53,33 +47,46 @@ const SignUp = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-      });
+      // Check if email already exists
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', values.email)
+        .single();
 
-      if (error) {
-        // Parse the error message from Supabase
-        let errorMessage = error.message;
-        if (error.message.includes("email_address_invalid")) {
-          errorMessage = "Please enter a valid email address.";
-        }
-        
+      if (existingUser) {
         toast({
           variant: "destructive",
           title: "Error",
-          description: errorMessage,
+          description: "This email is already registered.",
         });
         return;
       }
 
-      if (data.user) {
+      // Insert new user
+      const { error } = await supabase
+        .from('users')
+        .insert([
+          {
+            email: values.email,
+            password: values.password, // Note: In a production environment, you should hash the password
+          }
+        ]);
+
+      if (error) {
         toast({
-          title: "Success!",
-          description: "Please check your email to verify your account.",
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
         });
-        navigate("/signin");
+        return;
       }
+
+      toast({
+        title: "Success!",
+        description: "Your account has been created successfully.",
+      });
+      navigate("/signin");
     } catch (error) {
       toast({
         variant: "destructive",
