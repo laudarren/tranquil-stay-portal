@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -24,9 +25,6 @@ const formSchema = z.object({
     message: "Password must be at least 6 characters.",
   }),
   confirmPassword: z.string(),
-  verificationCode: z.string().length(6, {
-    message: "Verification code must be 6 characters.",
-  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -43,20 +41,41 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      verificationCode: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Here you would typically handle user registration
-      console.log("Sign up values:", values);
-      toast({
-        title: "Success!",
-        description: "Your account has been created.",
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
       });
-      navigate("/signin");
+
+      if (error) {
+        if (error.message.includes("already registered")) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "This email is already registered. Please sign in instead.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: error.message,
+          });
+        }
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Success!",
+          description: "Please check your email to verify your account.",
+        });
+        navigate("/signin");
+      }
     } catch (error) {
       toast({
         variant: "destructive",
@@ -74,7 +93,7 @@ const SignUp = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Enter your details to create your account
+            Enter your email and password to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -126,25 +145,6 @@ const SignUp = () => {
                       <Input
                         type="password"
                         placeholder="Confirm your password"
-                        {...field}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="verificationCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Verification Code</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Enter 6-digit code"
-                        maxLength={6}
                         {...field}
                         disabled={isLoading}
                       />
