@@ -20,6 +20,12 @@ import { supabase } from "@/integrations/supabase/client";
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
+  }).refine((email) => {
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }, {
+    message: "Please enter a valid email address format.",
   }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
@@ -53,19 +59,17 @@ const SignUp = () => {
       });
 
       if (error) {
-        if (error.message.includes("already registered")) {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "This email is already registered. Please sign in instead.",
-          });
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: error.message,
-          });
+        // Parse the error message from Supabase
+        let errorMessage = error.message;
+        if (error.message.includes("email_address_invalid")) {
+          errorMessage = "Please enter a valid email address.";
         }
+        
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: errorMessage,
+        });
         return;
       }
 
