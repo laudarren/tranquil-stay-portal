@@ -78,9 +78,9 @@ const SignIn = () => {
     <div className="min-h-screen pt-20 pb-12 flex flex-col items-center bg-gray-50">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Sign in to your account</CardTitle>
           <CardDescription className="text-center">
-            Enter your email and password to sign in to your account
+            Enter your email and password to sign in
           </CardDescription>
         </CardHeader>
         <CardContent>
