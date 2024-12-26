@@ -45,7 +45,7 @@ const SignUp = () => {
             localization={{
               variables: {
                 sign_up: {
-                  link_text: "", // 去掉 "Already have an account? Sign in"
+                  link_text: "abcdef", // 去掉 "Already have an account? Sign in"
                 },
               },
             }}
