@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -14,10 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 
-// Define the schema with confirmPassword
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
@@ -29,7 +28,7 @@ const formSchema = z.object({
     message: "Confirm Password must be at least 6 characters.",
   }),
 }).refine((data) => data.password === data.confirmPassword, {
-  path: ["confirmPassword"], // Highlight the confirmPassword field
+  path: ["confirmPassword"],
   message: "Passwords do not match.",
 });
 
@@ -50,45 +49,33 @@ const SignUp = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Check if email exists using maybeSingle() instead of single()
-      const { data: existingUser } = await supabase
-        .from("users")
-        .select("email")
-        .eq("email", values.email)
-        .maybeSingle();
-      if (existingUser) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "This email is already registered.",
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // Insert new user
-      const { error: insertError } = await supabase.from("users").insert([
-        {
-          email: values.email,
-          password: values.password,
-        },
-      ]);
-
-      if (insertError) {
-        console.error("Insert error:", insertError);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to create account. Please try again.",
-        });
-        return;
-      }
-
-      toast({
-        title: "Success!",
-        description: "Your account has been created successfully.",
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
       });
-      navigate("/login");
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
+        });
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Success!",
+          description: "Your account has been created successfully.",
+        });
+        navigate("/signin");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +87,7 @@ const SignUp = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Enter your email, password, and confirm password to create your account
+            Enter your email and password to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -166,6 +153,17 @@ const SignUp = () => {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className="flex flex-col space-y-4">
+          <div className="text-sm text-center">
+            Already have an account?{" "}
+            <Link to="/signin" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </div>
+          <Link to="/" className="text-sm text-muted-foreground hover:underline text-center">
+            Back to home
+          </Link>
+        </CardFooter>
       </Card>
     </div>
   );
