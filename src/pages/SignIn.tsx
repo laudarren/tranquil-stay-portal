@@ -1,132 +1,50 @@
-import { useState } from "react";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useNavigate, Link } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
-  }),
-});
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-        });
-        return;
-      }
-
-      if (data.user) {
-        toast({
-          title: "Success!",
-          description: "You have successfully signed in.",
-        });
+  useEffect(() => {
+    // Check if user is already logged in
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
         navigate("/");
       }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    });
+  }, [navigate]);
 
   return (
     <div className="min-h-screen pt-20 pb-12 flex flex-col items-center bg-gray-50">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Sign in to your account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
           <CardDescription className="text-center">
-            Enter your email and password to sign in
+            Sign in to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter your email"
-                        {...field}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign in"}
-              </Button>
-            </form>
-          </Form>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: '#404040',
+                    brandAccent: '#262626',
+                  },
+                },
+              },
+            }}
+            providers={["google"]}
+            redirectTo={`${window.location.origin}/`}
+            onlyThirdPartyProviders={false}
+            view="sign_in"
+          />
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center">
