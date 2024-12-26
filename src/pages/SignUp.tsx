@@ -12,7 +12,7 @@ const SignUp = () => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === 'SIGNED_UP') {
+      if (event === AuthChangeEvent.SIGNED_UP) {
         toast.success("Account created successfully! Please sign in.");
         navigate("/signin");
       }
