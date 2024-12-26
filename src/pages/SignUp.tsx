@@ -42,16 +42,7 @@ const SignUp = () => {
                 },
               },
             }}
-            localization={{
-              variables: {
-                sign_up: {
-                  link_text: "", // 设置为空字符串以隐藏链接
-                },
-                sign_in: {
-                  link_text: "", // 设置为空字符串以隐藏链接
-                },
-              },
-            }}
+            
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
