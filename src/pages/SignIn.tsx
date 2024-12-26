@@ -45,6 +45,9 @@ const SignIn = () => {
                 sign_up: {
                   forgot_password_link: "", // 移除 "Forgot your password?" 链接文字
                 },
+                sign_in: {
+                  link_text: "", // 设置为空字符串以隐藏链接
+                },
               },
             }}
             providers={[]}
