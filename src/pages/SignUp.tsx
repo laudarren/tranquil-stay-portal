@@ -42,11 +42,19 @@ const SignUp = () => {
                 },
               },
             }}
+            localization={{
+              variables: {
+                sign_up: {
+                  link_text: "", // 去掉 "Already have an account? Sign in"
+                },
+              },
+            }}
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
             view="sign_up"
           />
+
         </CardContent>
         
       </Card>
