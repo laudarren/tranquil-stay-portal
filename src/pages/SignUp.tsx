@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 
+// Define the schema with confirmPassword
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
@@ -24,6 +25,12 @@ const formSchema = z.object({
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
+  confirmPassword: z.string().min(6, {
+    message: "Confirm Password must be at least 6 characters.",
+  }),
+}).refine((data) => data.password === data.confirmPassword, {
+  path: ["confirmPassword"], // Highlight the confirmPassword field
+  message: "Passwords do not match.",
 });
 
 const SignUp = () => {
@@ -36,6 +43,7 @@ const SignUp = () => {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -44,9 +52,9 @@ const SignUp = () => {
     try {
       // Check if email exists using maybeSingle() instead of single()
       const { data: existingUser } = await supabase
-        .from('users')
-        .select('email')
-        .eq('email', values.email)
+        .from("users")
+        .select("email")
+        .eq("email", values.email)
         .maybeSingle();
       if (existingUser) {
         toast({
@@ -57,18 +65,17 @@ const SignUp = () => {
         setIsLoading(false);
         return;
       }
+
       // Insert new user
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert([
-          {
-            email: values.email,
-            password: values.password,
-          }
-        ]);
+      const { error: insertError } = await supabase.from("users").insert([
+        {
+          email: values.email,
+          password: values.password,
+        },
+      ]);
 
       if (insertError) {
-        console.error('Insert error:', insertError);
+        console.error("Insert error:", insertError);
         toast({
           variant: "destructive",
           title: "Error",
@@ -81,6 +88,7 @@ const SignUp = () => {
         title: "Success!",
         description: "Your account has been created successfully.",
       });
+      navigate("/login");
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +100,7 @@ const SignUp = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Enter your email and password to create your account
+            Enter your email, password, and confirm password to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -126,6 +134,24 @@ const SignUp = () => {
                       <Input
                         type="password"
                         placeholder="Enter your password"
+                        {...field}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Confirm your password"
                         {...field}
                         disabled={isLoading}
                       />
