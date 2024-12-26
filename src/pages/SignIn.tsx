@@ -40,6 +40,13 @@ const SignIn = () => {
                 },
               },
             }}
+            localization={{
+              variables: {
+                sign_in: {
+                  forgot_password_link: "", // 移除 "Forgot your password?" 链接文字
+                },
+              },
+            }}
             providers={[]}
             redirectTo={`${window.location.origin}/`}
             onlyThirdPartyProviders={false}
