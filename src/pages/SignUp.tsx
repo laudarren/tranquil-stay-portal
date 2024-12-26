@@ -45,7 +45,7 @@ const SignUp = () => {
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
-            view="sign_up"
+            view="sign_in"
           />
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
