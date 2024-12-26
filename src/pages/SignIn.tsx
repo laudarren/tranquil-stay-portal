@@ -42,7 +42,7 @@ const SignIn = () => {
             }}
             localization={{
               variables: {
-                sign_in: {
+                sign_up: {
                   forgot_password_link: "", // 移除 "Forgot your password?" 链接文字
                 },
               },
