@@ -5,13 +5,13 @@ import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import type { AuthChangeEvent } from "@supabase/supabase-js";
+import { AuthChangeEvent } from "@supabase/supabase-js";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
+    supabase.auth.onAuthStateChange((event: AuthChangeEvent) => {
       if (event === 'SIGNED_UP') {
         toast.success("Account created successfully! Please sign in.");
         navigate("/signin");
