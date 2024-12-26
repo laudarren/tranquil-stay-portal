@@ -4,15 +4,16 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
     supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        navigate("/");
+      if (event === 'SIGNED_UP') {
+        toast.success("Account created successfully! Please sign in.");
+        navigate("/signin");
       }
     });
   }, [navigate]);
@@ -41,7 +42,7 @@ const SignUp = () => {
               },
             }}
             providers={[]}
-            redirectTo={`${window.location.origin}/`}
+            redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
             view="sign_up"
           />

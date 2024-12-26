@@ -1,13 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [session, setSession] = useState(null);
+  const navigate = useNavigate();
   const paymentPendingCount = 1;
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast.success("Signed out successfully");
+    navigate("/");
+  };
 
   const NavLinks = () => (
     <>
@@ -42,6 +68,31 @@ export const Header = () => {
     </>
   );
 
+  const AuthButtons = ({ isMobile = false }) => {
+    if (session) {
+      return (
+        <Button 
+          variant="outline" 
+          onClick={handleSignOut}
+          className={isMobile ? "w-full" : ""}
+        >
+          Sign Out
+        </Button>
+      );
+    }
+
+    return (
+      <div className={`flex ${isMobile ? "flex-col" : ""} items-center gap-4`}>
+        <Link to="/signin" onClick={() => setIsOpen(false)} className={isMobile ? "w-full" : ""}>
+          <Button variant="outline" className={isMobile ? "w-full" : ""}>Sign In</Button>
+        </Link>
+        <Link to="/signup" onClick={() => setIsOpen(false)} className={isMobile ? "w-full" : ""}>
+          <Button variant="default" className={isMobile ? "w-full" : ""}>Sign Up</Button>
+        </Link>
+      </div>
+    );
+  };
+
   return (
     <header className="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -52,14 +103,7 @@ export const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <NavLinks />
-          <div className="flex items-center gap-4">
-            <Link to="/signin">
-              <Button variant="outline">Sign In</Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="default">Sign Up</Button>
-            </Link>
-          </div>
+          <AuthButtons />
         </nav>
 
         {/* Mobile Navigation */}
@@ -72,13 +116,8 @@ export const Header = () => {
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
             <nav className="flex flex-col gap-4 mt-8">
               <NavLinks />
-              <div className="flex flex-col gap-4 mt-4">
-                <Link to="/signin" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">Sign In</Button>
-                </Link>
-                <Link to="/signup" onClick={() => setIsOpen(false)}>
-                  <Button variant="default" className="w-full">Sign Up</Button>
-                </Link>
+              <div className="mt-4">
+                <AuthButtons isMobile />
               </div>
             </nav>
           </SheetContent>
