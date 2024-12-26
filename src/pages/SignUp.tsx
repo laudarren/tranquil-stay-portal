@@ -45,7 +45,7 @@ const SignUp = () => {
             localization={{
               variables: {
                 sign_up: {
-                  link_text: "abcdef", // 设置为空字符串以隐藏链接
+                  link_text: " ", // 设置为空字符串以隐藏链接
                 },
               },
             }}
