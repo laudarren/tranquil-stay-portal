@@ -7,8 +7,6 @@ import { useState } from "react";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // This would typically come from a global state or context
-  // For now we'll hardcode it to match our mock data
   const paymentPendingCount = 1;
 
   const NavLinks = () => (
@@ -41,12 +39,6 @@ export const Header = () => {
       <Link to="/support" className="text-gray-600 hover:text-primary transition-colors">
         Support
       </Link>
-      <Link to="/signin">
-        <Button variant="outline">Sign In</Button>
-      </Link>
-      <Link to="/signup">
-        <Button variant="default">Sign Up</Button>
-      </Link>
     </>
   );
 
@@ -60,6 +52,14 @@ export const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <NavLinks />
+          <div className="flex items-center gap-4">
+            <Link to="/signin">
+              <Button variant="outline">Sign In</Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="default">Sign Up</Button>
+            </Link>
+          </div>
         </nav>
 
         {/* Mobile Navigation */}
@@ -72,6 +72,14 @@ export const Header = () => {
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
             <nav className="flex flex-col gap-4 mt-8">
               <NavLinks />
+              <div className="flex flex-col gap-4 mt-4">
+                <Link to="/signin" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" className="w-full">Sign In</Button>
+                </Link>
+                <Link to="/signup" onClick={() => setIsOpen(false)}>
+                  <Button variant="default" className="w-full">Sign Up</Button>
+                </Link>
+              </div>
             </nav>
           </SheetContent>
         </Sheet>
