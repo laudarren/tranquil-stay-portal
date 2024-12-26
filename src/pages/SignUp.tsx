@@ -48,12 +48,7 @@ const SignUp = () => {
             view="sign_up"
           />
         </CardContent>
-        <CardFooter className="flex flex-col space-y-4">
-          
-          <Link to="/" className="text-sm text-muted-foreground hover:underline text-center">
-            Back to home
-          </Link>
-        </CardFooter>
+        
       </Card>
     </div>
   );
