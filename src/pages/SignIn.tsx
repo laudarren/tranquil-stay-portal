@@ -40,7 +40,7 @@ const SignIn = () => {
                 },
               },
             }}
-            providers={["google"]}
+            providers={[]}
             redirectTo={`${window.location.origin}/`}
             onlyThirdPartyProviders={false}
             view="sign_in"

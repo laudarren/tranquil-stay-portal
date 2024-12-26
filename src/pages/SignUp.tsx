@@ -23,7 +23,7 @@ const SignUp = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
-            Choose your preferred sign up method
+            Enter your email below to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -40,7 +40,7 @@ const SignUp = () => {
                 },
               },
             }}
-            providers={["google"]}
+            providers={[]}
             redirectTo={`${window.location.origin}/`}
             onlyThirdPartyProviders={false}
             view="sign_up"
