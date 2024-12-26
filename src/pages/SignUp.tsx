@@ -42,18 +42,24 @@ const SignUp = () => {
                 },
               },
             }}
-            
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
-            
+            view="sign_up"
           />
-
         </CardContent>
-        
+        <CardFooter className="flex flex-col space-y-4">
+          <div className="text-sm text-center">
+            Already have an account?{" "}
+            <Link to="/signin" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </div>
+          <Link to="/" className="text-sm text-muted-foreground hover:underline text-center">
+            Back to home
+          </Link>
+        </CardFooter>
       </Card>
     </div>
   );
 };
-
-export default SignUp;
