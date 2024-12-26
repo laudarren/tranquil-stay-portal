@@ -42,46 +42,24 @@ const SignUp = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Check if email exists using maybeSingle() instead of single()
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('email')
-        .eq('email', values.email)
-        .maybeSingle();
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+      });
 
-      if (existingUser) {
+      if (error) {
+        console.error('Sign up error:', error);
         toast({
           variant: "destructive",
           title: "Error",
-          description: "This email is already registered.",
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // Insert new user
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert([
-          {
-            email: values.email,
-            password: values.password,
-          }
-        ]);
-
-      if (insertError) {
-        console.error('Insert error:', insertError);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to create account. Please try again.",
+          description: error.message || "Failed to create account. Please try again.",
         });
         return;
       }
 
       toast({
         title: "Success!",
-        description: "Your account has been created successfully.",
+        description: "Your account has been created successfully. Please check your email for verification.",
       });
       navigate("/signin");
     } catch (error) {
