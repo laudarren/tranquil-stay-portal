@@ -1,6 +1,6 @@
+import { useNavigate, Link } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +12,7 @@ const SignUp = () => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event: AuthChangeEvent, session) => {
-      if (event === 'SIGNED_UP') {
+      if (event === AuthChangeEvent.SIGNED_UP) {
         toast.success("Account created successfully! Please sign in.");
         navigate("/signin");
       }
