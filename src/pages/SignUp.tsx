@@ -42,10 +42,17 @@ const SignUp = () => {
                 },
               },
             }}
+            localization={{
+              variables: {
+                sign_up: {
+                  link_text: "", // 设置为空字符串以隐藏链接
+                },
+              },
+            }}
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
             onlyThirdPartyProviders={false}
-            view="sign_in"
+            view="sign_up"
           />
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
