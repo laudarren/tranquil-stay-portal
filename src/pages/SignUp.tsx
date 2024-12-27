@@ -10,7 +10,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event) => {
+    supabase.auth.onAuthStateChange(async (event: any) => {
       if (event === "SIGNED_UP") {
         toast.success("Account created successfully! Please sign in.");
         navigate("/signin");
@@ -47,14 +47,6 @@ const SignUp = () => {
             view="sign_up"
           />
         </CardContent>
-        <CardFooter className="flex flex-col space-y-4">
-          <div className="text-sm text-center">
-            Already have an account?{" "}
-            <Link to="/signin" className="text-primary hover:underline">
-              Sign in
-            </Link>
-          </div>
-        </CardFooter>
       </Card>
     </div>
   );
