@@ -1,6 +1,6 @@
-import { useNavigate, Link } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,9 +10,9 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
+    supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_UP") {
+        toast.success("Account created successfully! Please sign in.");
         navigate("/signin");
       }
     });
@@ -54,9 +54,6 @@ const SignUp = () => {
               Sign in
             </Link>
           </div>
-          <Link to="/" className="text-sm text-muted-foreground hover:underline text-center">
-            Back to home
-          </Link>
         </CardFooter>
       </Card>
     </div>

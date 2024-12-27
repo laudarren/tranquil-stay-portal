@@ -40,7 +40,6 @@ const SignIn = () => {
                 },
               },
             }}
-            
             providers={[]}
             redirectTo={`${window.location.origin}/`}
             onlyThirdPartyProviders={false}
@@ -54,9 +53,6 @@ const SignIn = () => {
               Sign up
             </Link>
           </div>
-          <Link to="/" className="text-sm text-muted-foreground hover:underline text-center">
-            Back to home
-          </Link>
         </CardFooter>
       </Card>
     </div>
