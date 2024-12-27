@@ -10,9 +10,9 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_UP") {
-        toast.success("Account created successfully! Please sign in.");
+    // Check if user is already logged in
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
         navigate("/signin");
       }
     });
