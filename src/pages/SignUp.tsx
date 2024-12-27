@@ -1,9 +1,9 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 
 const SignUp = () => {
@@ -40,6 +40,9 @@ const SignUp = () => {
                   },
                 },
               },
+              className: {
+                anchor: 'hidden',  // This hides the default "Sign In" link
+              },
             }}
             providers={[]}
             redirectTo={`${window.location.origin}/signin`}
@@ -47,6 +50,14 @@ const SignUp = () => {
             view="sign_up"
           />
         </CardContent>
+        <CardFooter className="flex flex-col space-y-4">
+          <div className="text-sm text-center">
+            Already have an account?{" "}
+            <Link to="/signin" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
