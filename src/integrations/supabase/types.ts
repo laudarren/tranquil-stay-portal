@@ -30,6 +30,101 @@ export type Database = {
         }
         Relationships: []
       }
+      properties: {
+        Row: {
+          bathrooms: number
+          bedrooms: number
+          created_at: string
+          id: string
+          image_url: string
+          location: string
+          name: string
+          owner_id: string
+          price: number
+        }
+        Insert: {
+          bathrooms: number
+          bedrooms: number
+          created_at?: string
+          id?: string
+          image_url: string
+          location: string
+          name: string
+          owner_id: string
+          price: number
+        }
+        Update: {
+          bathrooms?: number
+          bedrooms?: number
+          created_at?: string
+          id?: string
+          image_url?: string
+          location?: string
+          name?: string
+          owner_id?: string
+          price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reservations: {
+        Row: {
+          check_in: string
+          check_out: string
+          created_at: string
+          id: string
+          price_per_night: number
+          property_id: string
+          status: string
+          total_nights: number
+          user_id: string
+        }
+        Insert: {
+          check_in: string
+          check_out: string
+          created_at?: string
+          id?: string
+          price_per_night: number
+          property_id: string
+          status?: string
+          total_nights: number
+          user_id: string
+        }
+        Update: {
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          id?: string
+          price_per_night?: number
+          property_id?: string
+          status?: string
+          total_nights?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
