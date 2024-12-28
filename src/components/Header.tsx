@@ -10,8 +10,8 @@ import { toast } from "sonner";
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [session, setSession] = useState(null);
+  const [paymentPendingCount, setPaymentPendingCount] = useState(0);
   const navigate = useNavigate();
-  const paymentPendingCount = 1;
 
   useEffect(() => {
     // Get initial session
@@ -28,6 +28,27 @@ export const Header = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const fetchPaymentPendingCount = async () => {
+      if (session?.user) {
+        const { count, error } = await supabase
+          .from('reservations')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', session.user.id)
+          .eq('status', 'waiting_payment');
+
+        if (error) {
+          console.error('Error fetching payment pending count:', error);
+          return;
+        }
+
+        setPaymentPendingCount(count || 0);
+      }
+    };
+
+    fetchPaymentPendingCount();
+  }, [session]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
