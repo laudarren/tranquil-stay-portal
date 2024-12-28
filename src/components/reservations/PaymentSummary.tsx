@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface PaymentSummaryProps {
   selectedCount: number;
   totalAmount: number;
-  selectedReservations: number[];
+  selectedReservations: string[];
 }
 
 export const PaymentSummary = ({ selectedCount, totalAmount, selectedReservations }: PaymentSummaryProps) => {

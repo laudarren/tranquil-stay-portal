@@ -4,12 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Clock, MapPin, Calendar, BedDouble, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Reservation } from "@/types/reservation";
+
+interface Reservation {
+  id: string;
+  propertyName: string;
+  location: string;
+  checkIn: string;
+  checkOut: string;
+  status: string;
+  price: number;
+  totalNights: number;
+  image: string;
+}
 
 interface ReservationCardProps {
   reservation: Reservation;
   isSelected: boolean;
-  onSelect: (id: number) => void;
+  onSelect: (id: string) => void;
 }
 
 export const ReservationCard = ({ reservation, isSelected, onSelect }: ReservationCardProps) => {
@@ -28,7 +39,7 @@ export const ReservationCard = ({ reservation, isSelected, onSelect }: Reservati
           </div>
         )}
         <img
-          src={`${reservation.image}?auto=format&fit=crop&w=800&q=80`}
+          src={reservation.image}
           alt={reservation.propertyName}
           className="object-cover w-full h-full"
           onError={(e) => {
@@ -115,8 +126,7 @@ export const ReservationCard = ({ reservation, isSelected, onSelect }: Reservati
             </div>
             <Button 
               className="w-full" 
-              //onClick={() => navigate(`/property/${reservation.id}`)}
-              onClick={() => navigate('/checkout', { state: { reservationIds: [1] } })}
+              onClick={() => navigate('/checkout', { state: { reservationIds: [reservation.id] } })}
               variant={isSelected ? "secondary" : "default"}
             >
               <CreditCard className="mr-2 h-4 w-4" />
