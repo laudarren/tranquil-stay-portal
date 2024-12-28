@@ -39,6 +39,9 @@ const SignIn = () => {
                   },
                 },
               },
+              className: {
+                anchor: 'hidden',  // This hides both the "Sign Up" and "Forgot Password" links
+              },
             }}
             providers={[]}
             redirectTo={`${window.location.origin}/`}
