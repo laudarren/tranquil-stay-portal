@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { BedDouble, Bath, DollarSign, MapPin, ArrowLeft } from "lucide-react";
+import { BedDouble, Bath, DollarSign, MapPin, ArrowLeft, Wifi, Building2, GraduationCap, Wine, Dumbbell, TreePine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -34,6 +34,23 @@ const PropertyDetails = () => {
       description: "Your booking request has been received. We'll contact you shortly.",
     });
     navigate('/checkout');
+  };
+
+  const getAmenityIcon = (amenity: string) => {
+    switch (amenity.toLowerCase()) {
+      case 'high-speed wifi':
+        return <Wifi className="h-4 w-4" />;
+      case 'gym access':
+        return <Dumbbell className="h-4 w-4" />;
+      case 'wine cellar':
+        return <Wine className="h-4 w-4" />;
+      case 'smart home system':
+        return <Building2 className="h-4 w-4" />;
+      case 'concierge service':
+        return <GraduationCap className="h-4 w-4" />;
+      default:
+        return <TreePine className="h-4 w-4" />;
+    }
   };
 
   if (error) {
@@ -150,6 +167,23 @@ const PropertyDetails = () => {
                 <div className="flex items-center">
                   <DollarSign className="h-4 w-4" />
                   <span>{property.price}/night</span>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-2">Description</h2>
+                <p className="text-muted-foreground">{property.description}</p>
+              </div>
+
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-3">Amenities</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {property.amenities.map((amenity: string) => (
+                    <div key={amenity} className="flex items-center gap-2 text-muted-foreground">
+                      {getAmenityIcon(amenity)}
+                      <span>{amenity}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 

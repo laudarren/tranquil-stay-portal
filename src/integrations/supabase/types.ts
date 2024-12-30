@@ -32,9 +32,11 @@ export type Database = {
       }
       properties: {
         Row: {
+          amenities: string[]
           bathrooms: number
           bedrooms: number
           created_at: string
+          description: string
           id: string
           image_url: string
           location: string
@@ -43,9 +45,11 @@ export type Database = {
           price: number
         }
         Insert: {
+          amenities?: string[]
           bathrooms: number
           bedrooms: number
           created_at?: string
+          description?: string
           id?: string
           image_url: string
           location: string
@@ -54,9 +58,11 @@ export type Database = {
           price: number
         }
         Update: {
+          amenities?: string[]
           bathrooms?: number
           bedrooms?: number
           created_at?: string
+          description?: string
           id?: string
           image_url?: string
           location?: string
