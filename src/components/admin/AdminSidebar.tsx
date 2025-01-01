@@ -22,7 +22,7 @@ export const AdminSidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r min-h-screen p-4 fixed">
+    <aside className="fixed left-0 top-0 w-64 bg-white border-r h-screen p-4">
       <div className="flex items-center gap-2 mb-8 px-2">
         <Building2 className="h-6 w-6" />
         <span className="font-semibold text-lg">Admin Dashboard</span>

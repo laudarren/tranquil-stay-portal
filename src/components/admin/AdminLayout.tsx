@@ -7,11 +7,11 @@ interface AdminLayoutProps {
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
-    <div className="min-h-screen flex w-full">
+    <div className="min-h-screen bg-gray-100">
       <AdminSidebar />
-      <div className="flex-1">
+      <div className="pl-64"> {/* Add left padding to account for fixed sidebar width */}
         <Header />
-        <main className="p-8 mt-16">
+        <main className="p-8">
           {children}
         </main>
       </div>
