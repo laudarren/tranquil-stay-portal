@@ -8,11 +8,23 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [propertyToDelete, setPropertyToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
@@ -66,6 +78,11 @@ const AdminDashboard = () => {
 
     queryClient.invalidateQueries({ queryKey: ['admin-properties'] });
     toast.success("Property deleted successfully");
+    setPropertyToDelete(null);
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/edit-property/${id}`);
   };
 
   if (!isAdmin) {
@@ -134,17 +151,41 @@ const AdminDashboard = () => {
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => navigate(`/edit-property/${property.id}`)}
+                        onClick={() => handleEdit(property.id)}
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleDelete(property.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => setPropertyToDelete(property.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete the property
+                              and remove all associated data.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setPropertyToDelete(null)}>
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => propertyToDelete && handleDelete(propertyToDelete)}
+                              className="bg-red-500 hover:bg-red-600"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))
