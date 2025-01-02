@@ -10,13 +10,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const PropertyDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const { data: property, isLoading, error } = useQuery({
     queryKey: ['property', id],
     queryFn: async () => {
+      if (!id) throw new Error('Property ID is required');
+      
       const { data, error } = await supabase
         .from('properties')
         .select('*')
@@ -26,6 +28,7 @@ const PropertyDetails = () => {
       if (error) throw error;
       return data;
     },
+    enabled: !!id, // Only run the query if we have an ID
   });
 
   const handleBooking = () => {
