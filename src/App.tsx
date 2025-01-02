@@ -29,7 +29,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/edit-property/:id" element={<EditProperty />} />
-        <Route path="/list-property" element={<AddProperty />} />
+        <Route path="/add-property" element={<AddProperty />} />
       </Routes>
     </Router>
   );
