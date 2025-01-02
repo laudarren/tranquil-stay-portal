@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { BedDouble, Bath, DollarSign, MapPin, ArrowLeft, Wifi, Building2, GraduationCap, Wine, Dumbbell, TreePine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,12 +23,12 @@ const PropertyDetails = () => {
         .from('properties')
         .select('*')
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
     },
-    enabled: !!id, // Only run the query if we have an ID
+    enabled: !!id,
   });
 
   const handleBooking = () => {
@@ -146,6 +146,10 @@ const PropertyDetails = () => {
               src={property.image_url}
               alt={property.name}
               className="object-cover w-full h-full"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/placeholder.svg";
+              }}
             />
           </div>
 
@@ -181,7 +185,7 @@ const PropertyDetails = () => {
               <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-3">Amenities</h2>
                 <div className="grid grid-cols-2 gap-3">
-                  {property.amenities.map((amenity: string) => (
+                  {property.amenities?.map((amenity: string) => (
                     <div key={amenity} className="flex items-center gap-2 text-muted-foreground">
                       {getAmenityIcon(amenity)}
                       <span>{amenity}</span>
@@ -190,7 +194,13 @@ const PropertyDetails = () => {
                 </div>
               </div>
 
-              <Button className="w-full" size="lg" onClick={handleBooking}>
+              <Button className="w-full" size="lg" onClick={() => {
+                toast({
+                  title: "Booking Initiated",
+                  description: "Your booking request has been received. We'll contact you shortly.",
+                });
+                navigate('/checkout');
+              }}>
                 Book Now
               </Button>
             </CardContent>
@@ -201,6 +211,23 @@ const PropertyDetails = () => {
       <Footer />
     </div>
   );
+};
+
+const getAmenityIcon = (amenity: string) => {
+  switch (amenity.toLowerCase()) {
+    case 'high-speed wifi':
+      return <Wifi className="h-4 w-4" />;
+    case 'gym access':
+      return <Dumbbell className="h-4 w-4" />;
+    case 'wine cellar':
+      return <Wine className="h-4 w-4" />;
+    case 'smart home system':
+      return <Building2 className="h-4 w-4" />;
+    case 'concierge service':
+      return <GraduationCap className="h-4 w-4" />;
+    default:
+      return <TreePine className="h-4 w-4" />;
+  }
 };
 
 export default PropertyDetails;
