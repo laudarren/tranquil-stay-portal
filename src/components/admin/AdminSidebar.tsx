@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Building2, List, Plus, Settings, Menu, X } from "lucide-react";
+import { Building2, List, Plus, Settings, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -12,12 +12,12 @@ export const AdminSidebar = () => {
     {
       title: "Properties List",
       icon: List,
-      href: "/admin",
+      href: "/properties",
     },
     {
       title: "Add Property",
       icon: Plus,
-      href: "/list-property",
+      href: "/add-property",
     },
     {
       title: "Settings",
